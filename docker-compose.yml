@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+  baget-ru-nginx:
+    image: baget-ru-nginx:${IMAGE_TAG}
+    container_name: baget-ru-app-nginx
+    ports:
+      - ${TEST_WEB_PORT}:80
+    volumes:
+      - .:/app
+    depends_on:
+      - baget-ru-php-fpm
+      - baget-ru-redis
+
+  baget-ru-redis:
+    image: redis:3.2.10-alpine
+    container_name: baget-ru-app-redis
+    ports:
+      - 63791:6379
+
+  baget-ru-mariadb:
+    image: mariadb:10.1.32
+    container_name: baget-ru-app-mariadb
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${TEST_DB_PATH}:/var/lib/mysql
+      - ./docker/development/mariadb/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 33061:3306
+
+  baget-ru-php-fpm:
+    image: baget-ru-php-fpm:${IMAGE_TAG}
+    container_name: baget-ru-app-php-fpm
+    volumes:
+      - .:/app
+
+  baget-ru-php-cli:
+    image: baget-ru-php-cli:${IMAGE_TAG}
+    container_name: baget-ru-app-php-cli
+    volumes:
+      - .:/app
+
+  baget-ru-node-cli:
+    image: node
+    container_name: baget-ru-app-node-cli
+    volumes:
+      - .:/app
+    working_dir: /app
+
+networks:
+  default:
+    name: baget-ru-dev_default

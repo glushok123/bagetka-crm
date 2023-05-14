@@ -19,6 +19,15 @@ class OrderController extends Controller
         ]);
     }
 
+    public function showEditForm(int $orderId)
+    {
+        $order = DB::connection('mysqlbagetnaya')->table('calendar')->where('id', $orderId)->first();
+
+        return view('orders.formEdit', [
+            'order' => $order
+        ]);
+    }
+
     public function showCreateFormPost(Request $request)
     {
         dd($request);
@@ -26,6 +35,10 @@ class OrderController extends Controller
 
     public function showOrdersBaget()
     {
-        dd(DB::connection('mysqlbagetnaya')->table('calendar')->first());
+        $orders = DB::connection('mysqlbagetnaya')->table('calendar')->get();
+        
+        return view('orders.showOrdersBaget', [
+          'orders' => $orders
+        ]);
     }
 }

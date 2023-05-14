@@ -19,9 +19,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('orders/show/baget', 'App\Http\Controllers\OrderController@showOrdersBaget');
+Route::get('orders/show/baget', 'App\Http\Controllers\OrderController@showOrdersBaget')->name('orders.show');
 
 Route::get('orders/create/', 'App\Http\Controllers\OrderController@showCreateForm');
+Route::get('orders/edit/{id}', 'App\Http\Controllers\OrderController@showEditForm')->name('orders.edit');
 Route::post('orders/create/', 'App\Http\Controllers\OrderController@showCreateFormPost');
 
 Route::get('generate-pdf', [PDFController::class, 'generatePDF']);

@@ -2,51 +2,78 @@
 
 @section('content')
 
-    <div class="container-fluid bg-white">
+
+<style>
+            .hidden{
+            display:none;
+        }
+        /********************  Preloader Demo-11 *******************/
+            .loader11{width:100px;height:70px;margin:50px auto;position:relative}
+            .loader11 span{display:block;width:5px;height:10px;background:#e43632;position:absolute;bottom:0;animation:loading-11 2.25s infinite ease-in-out}
+            .loader11 span:nth-child(2){left:11px;animation-delay:.2s}
+            .loader11 span:nth-child(3){left:22px;animation-delay:.4s}
+            .loader11 span:nth-child(4){left:33px;animation-delay:.6s}
+            .loader11 span:nth-child(5){left:44px;animation-delay:.8s}
+            .loader11 span:nth-child(6){left:55px;animation-delay:1s}
+            .loader11 span:nth-child(7){left:66px;animation-delay:1.2s}
+            .loader11 span:nth-child(8){left:77px;animation-delay:1.4s}
+            .loader11 span:nth-child(9){left:88px;animation-delay:1.6s}
+            @-webkit-keyframes loading-11{
+                0%{height:10px;transform:translateY(0);background:#ff4d80}
+                25%{height:60px;transform:translateY(15px);background:#3423a6}
+                50%{height:10px;transform:translateY(-10px);background:#e29013}
+                100%{height:10px;transform:translateY(0);background:#e50926}
+            }
+            @keyframes loading-11{
+                0%{height:10px;transform:translateY(0);background:#ff4d80}
+                25%{height:60px;transform:translateY(15px);background:#3423a6}
+                50%{height:10px;transform:translateY(-10px);background:#e29013}
+                100%{height:10px;transform:translateY(0);background:#e50926}
+            }
+</style>
+
+<div class="container" id='loader-curent'>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="loader11">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>
+
+    <div class="container bg-white">
         <br>
         <div class="" style="width:100%">
             <table id="orders" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Филиал</th>
-                        <th>Дата принятия</th>
-                        <th>Номер</th>
-                        <th width="10%">ФИО</th>
-                        <th>Телефон</th>
+                        <th width="4%">№</th>
+                        <th width="4%">Номер</th>
+                        <th width="8%">Дата принятия</th>
+                        <th width="4%">Филиал</th>
+                        <th width="8%">ФИО</th>
+                        <th width="15%">Телефон</th>
                         <th width="10%">Комментарий</th>
-                        <th>Сумма</th>
-                        <th width="5%">Фото №1</th>
-                        <th width="5%">Фото №2</th>
+                        <th width="4%">Сумма</th>
+                        <th width="4%">Фото №1</th>
+                        <th width="4%">Фото №2</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($orders as $order)
-                        <tr>
-                            <td>{{ $order->department == 'arb' ? "Арбат" : "Кузня" }}</td>
-                            <td>{{ $order->datein }}</td>
-                            <td>{{ $order->numberord }}</td>
-                            <td class="nowrap">{{ $order->client_name }}</td>
-                            <td>{{ $order->phone }}</td>
-                            <td>{{ $order->comment }}</td>
-                            <td>{{ $order->payment }}</td>
-                            <td>
-                                <a href="http://orders.bagetnaya-masterskaya.com/calendar/{{ $order->file_front }}" target="_blank">
-                                    {!! empty($order->file_front) == true ? '' : '<i class="bi bi-arrow-right-square-fill"></i>' !!} 
-                                </a>
-                            </td>
-                            <td>
-                                <a href="http://orders.bagetnaya-masterskaya.com/calendar/{{ $order->file_back }}" target="_blank">
-                                    {!! empty($order->file_back) == true ? '' : '<i class="bi bi-arrow-right-square-fill"></i>' !!} 
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('orders.edit', ['id' => $order->id]) }}" type="button" class="btn btn-outline-success">Перейти (редактировать)</a>
-                                <a href="#" type="button" class="btn btn-outline-info"><i class="bi bi-printer-fill"></i></a>
-                                <a href="#" type="button" class="btn btn-outline-danger"><i class="bi bi-file-earmark-pdf"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
+
                 </tbody>
                 <tfoot>
                     <th></th>
@@ -62,6 +89,8 @@
                 </tfoot>
             </table>
         </div>
+
+        <br>
     </div>
 
 @endsection
@@ -70,11 +99,16 @@
 
     <script>
         $(document).ready(function () {
-            $('#orders').DataTable(
+           var tableOrders =  $('#orders').DataTable(
                 {
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                        var info = $(this).DataTable().page.info();
+                        $("td:nth-child(1)", nRow).html(info.start + iDisplayIndex + 1);
+                        return nRow;
+                    },
                     dom: 'Bfrtip',
                     buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
+                        'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
                     ],
                     order: [[1, 'desc']],
                     drawCallback: function () {
@@ -84,7 +118,7 @@
                         //to show first th
                         $(api.column(0).footer()).html('Итого');
 
-                        for(var i=6; i<=6;i++)
+                        for(var i=7; i<=7;i++)
                         {
                             sum = api.column(i, {page:'current'}).data().sum();
 
@@ -342,6 +376,36 @@
                     },
                 }
             );
+
+            $.ajax({
+                url: '/orders/get/json',
+                method: 'post',
+                dataType: "json",
+                data: {},
+                async: true,
+                success: function(data) {
+                    tableOrders.clear().draw();
+                    tableOrders.rows.add(data.data).draw();
+                    $('#loader-curent').hide()
+                },
+                error: function (jqXHR, exception) {
+                     if (jqXHR.status === 0) {
+                        alert('Not connect. Verify Network.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Requested page not found (404).');
+                    } else if (jqXHR.status == 500) {
+                        alert('Internal Server Error (500).');
+                    } else if (exception === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (exception === 'timeout') {
+                        alert('Time out error.');
+                    } else if (exception === 'abort') {
+                        alert('Ajax request aborted.');
+                    } else {
+                        alert('Uncaught Error. ' + jqXHR.responseText);
+                    }
+                }
+            });
         });
     </script>
 @endsection

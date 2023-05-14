@@ -38,6 +38,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
 
 	@vite([
 		'resources/css/app.css', 
@@ -60,7 +61,7 @@
 	<div class='container'>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
-			  <a class="navbar-brand" href="#">Navbar</a>
+			  <a class="navbar-brand" href="{{ route('orders.show') }}">CRM</a>
 			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -70,7 +71,10 @@
 					<a class="nav-link active" aria-current="page" href="{{ route('orders.show') }}">Заказы</a>
 				  </li>
 				  <li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
+					<a class="nav-link" href="#">Календарь</a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link" href="#">Статистика</a>
 				  </li>
 				  <li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

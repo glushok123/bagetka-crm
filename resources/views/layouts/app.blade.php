@@ -71,7 +71,7 @@
 					<a class="nav-link active" aria-current="page" href="{{ route('orders.show') }}">Заказы</a>
 				  </li>
 				  <li class="nav-item">
-					<a class="nav-link" href="#">Календарь</a>
+					<a class="nav-link" href="{{ route('calendar.show') }}">Календарь</a>
 				  </li>
 				  <li class="nav-item">
 					<a class="nav-link" href="#">Статистика</a>
@@ -101,6 +101,16 @@
 	</div>
 
 	<br>
+
+	<section class="messenger">
+		<div class="container">
+			<div class="row">
+				@if(Session::has('message'))
+					<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+				@endif
+			</div>
+		</div>
+	</section>
 
 	@yield('content')
 

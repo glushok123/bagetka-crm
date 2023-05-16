@@ -48,19 +48,19 @@
 
     <div class="container-fluid">
         <div class="row text-end">
-            <span>Ст.м. Арбатская. Бланк заказа №1</span>
+            <span>Ст.м. Арбатская. Бланк заказа № <b>{{ $orderNew->order_number }}</b></span>
         </div>
 
         <table width="100%" class="custom-margin-top">
             <tr class="spaceUnder">
-                <td class="text-start"><span>Форма расчета:  </span></td>
+                <td class="text-start"><span>Форма расчета: <b>{{ $orderNew->payment_method }}</b> </span></td>
                 <td class="text-end"><span>Принял: ___________________ </span></td>
             </tr>
             <tr class="spaceUnder">
-                <td class="text-end" colspan="2"><span>Дата приема: ______________  </span><span>Дата выдачи:  _______________ </span></td>
+                <td class="text-end" colspan="2"><span style="margin-right: 10px;">Дата приема: <b> {{ $orderNew->date_reception }} </b> </span><span>Дата выдачи: <b> {{ $orderNew->date_issuance }} </b> </span></td>
             </tr>
             <tr class="spaceUnder">
-                <td class="text-start" style="width:60%"><span>ФИО клиента: ______________  </span> <br> <span>Контактный телефон :  _______________ </span></td>
+                <td class="text-start" style="width:60%"><span>ФИО клиента:<b> {{ $orderNew->client_name }} </b>  </span> <br> <span>Контактный телефон :  <b> {{ $orderNew->client_phone }} </b> </span></td>
                 <td class="" style="width:40%">
                     <div style="border: 1px solid black; min-height: 70px;">
                         <div class="row">
@@ -85,18 +85,25 @@
             <th>Сумма</th>
 
         </tr>
-        @foreach([0,0,0] as $user)
-            <tr>
-                <td>Артикул багета</td>
-                <td>Внутренний размер рамы (ЧОП)</td>
-                <td>Размер окна (работы)</td>
-                <td>Артикул канта</td>
-                <td>Артикул паспарту</td>
-                <td>Ширина поля </td>
-                <td>Кол-во</td>
-                <td>Сумма</td>
-            </tr>
-        @endforeach
+            @php
+                $count = 1;
+            @endphp
+            @foreach ($orderItems as $orderItem)
+                <tr>
+                    <td>{{$count}}) {{ $orderItem->article_baget }}</td>
+                    <td>{{ $orderItem->chop }}</td>
+                    <td>{{ $orderItem->window_size }}</td>
+                    <td>{{ $orderItem->article_kanta }}</td>
+                    <td>{{ $orderItem->article_pasp }}</td>
+                    <td>{{ $orderItem->field_width }}</td>
+                    <td>{{ $orderItem->quantity }}</td>
+                    <td>{{ $orderItem->amount }}</td>
+                </tr>
+
+                @php
+                    $count = $count + 1;
+                @endphp
+            @endforeach
     </table>
 
     <div class="row">
@@ -105,25 +112,37 @@
 
     <table class="table  " >
         <tr class="text-center " >
-
-            @foreach([0,0,0] as $user)
+            @php
+                $count = 1;
+            @endphp
+            @foreach ($orderItems as $orderItem)
                 <td >
-   
-
                     <div style="border: 1px solid black; margin:3px;">
+                        <span class="text-start">№ {{ $count }}</span>
+                        
                         <div>
                             <span>Задник</span>
                             <div>
                                 <input type="checkbox" id="scales" name="scales custom-checkbox" checked>
                                 <label for="scales">Scales</label>
-                              </div>
+                            </div>
                         </div>
                         <hr>
                         <div>
                             <span>Стекло</span>
+                            <div>
+                                <span>БЛА БЛА БЛА</span>
+                            </div>
                         </div>
-                    </td>
                     </div>
+                </td>
+                @php
+                    $count = $count + 1;
+                @endphp
+            @endforeach
+            @foreach([0,0,0] as $user)
+
+                    
 
             @endforeach
 
@@ -154,6 +173,7 @@
                             <div style="border: 1px solid black; min-height: 40px;">
                                 <div class="row">
                                     <span class="fst-italic" style="margin-left: 5px;">Итого:</span>
+                                    <h2 style="margin-left: 5px;">{{ $orderNew->total_amount }}</h2>
                                 </div>
                             </div>
                         </td>
@@ -172,7 +192,7 @@
                     </tr>
                     <tr>
                       
-                        <td class="text-end" colspan="2"><span>ФИО: ______________  </span><span>Подпись :  _______________ </span></td>
+                        <td colspan="2"><span  class="text-end">ФИО: _____________________________________________________ </span> <br> <span>Подпись :  _______________ </span></td>
 
                     </tr>
                 </table>
@@ -182,17 +202,18 @@
         </tr>
     </table>
 
-    <hr style="border-top: 3px solid black;">
+    <hr style="border-top: dotted 2px; background: none;" />
 
     <table>
         <tr>
             <td style="width:40%">
-                <span class="text-bold">Бланк заказа № 17</span><br>
+                <span class="text-bold">Бланк заказа № {{ $orderNew->order_number }}</span><br>
                 <span class="text-bold">Дата получения __________</span><br><br>
 
                 <div style="border: 1px solid black; min-height: 80px;">
                     <div class="row">
-                        <span class="fst-italic" style="margin-left: 5px;">Сумма заказа:</span>
+                        <span class="fst-italic" style="margin-left: 5px;">Сумма заказа: </span>
+                        <h1 style="margin-left: 5px;">{{ $orderNew->total_amount }}</h1>
                     </div>
                 </div>
             </td>

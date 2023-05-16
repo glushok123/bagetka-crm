@@ -32,6 +32,18 @@
             }
 </style>
 
+<div class="container">
+    <br/>
+    <div class="row">
+
+        <div class="col-md-12">
+            <a href="{{ route('orders.create') }}" class="btn btn-outline-primary">Добавить заказ</a>
+        </div>
+    </div>
+    <br/>
+</div>
+
+
 <div class="container" id='loader-curent'>
     <br/>
     <div class="row">
@@ -110,7 +122,7 @@
                     buttons: [
                         'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'
                     ],
-                    order: [[1, 'desc']],
+                    order: [[2, 'desc']],
                     drawCallback: function () {
                         var api = this.api();
                         var sum = 0;

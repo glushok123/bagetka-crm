@@ -4,52 +4,56 @@
 
     <div class='container' >
         <div class="row text-center">
-            <h2>Форма редактирования заказа № {{ $order->numberord }} ({{ $order->id}})</h2>
+            <h2>Форма редактирования заказа № {{ $orderOld->numberord }} ({{ $orderNew->id}})</h2>
         </div>
 
         <hr>
 
-        <form action="/" method="post" class="needs-validation" id="myForm">
+        <form action="{{ route('orders.edit.post') }}" method="get" class="needs-validation" id="myForm">
+            <input type="hidden" name='new_order_id' value="{{ $orderNew->id}}">
             <div class="row">
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="client_name" value="{{ $order->client_name }}">
+                        <input type="text" class="form-control" placeholder="name@example.com" name="order_number" value="{{ $orderNew->order_number }}">
+                        <label for="floatingInput">Номер заказа</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="name@example.com" name="client_name" value="{{ $orderNew->client_name }}" required>
                         <label for="floatingInput">ФИО клиента</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="client_phone" placeholder="name@example.com" name="client_phone" value="{{ $order->phone }}">
+                        <input type="text" class="form-control" id="client_phone" placeholder="name@example.com" name="client_phone" value="{{ $orderNew->client_phone }}" required>
                         <label for="floatingInput">Контактный телефон</label>
                     </div>
-                    <div class="form-floating">
-                        <select class="form-select"  aria-label="Floating label select example" name="payment_method">
-                            <option value="Не выбрано" selected>Не выбрано</option>
-                          <option value="Наличные">Наличные</option>
-                          <option value="Я-деньги">Я-деньги</option>
-                          <option value="Безналичные">Безналичные</option>
-                          <option value="Cчет">Cчет</option>
-                        </select>
-                        <label for="floatingSelect">Форма расчета</label>
-                    </div>
+
                 </div>
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" value="{{ $order->datein }}">
+                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" value="{{ $orderNew->date_reception }}" required>
                         <label for="floatingInput">Дата приема</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance">
+                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" value="{{ $orderNew->date_issuance }}" required>
                         <label for="floatingInput">Дата выдачи</label>
                     </div>
                     <div class="form-floating">
-                        <select class="form-select"  aria-label="Floating label select example" name="status_materials">
-                          <option value="Не выбрано" selected>Не выбрано</option>
-                          <option value="Наличные">Наличные</option>
+                        <select class="form-select"  aria-label="Floating label select example" name="payment_method" required>
+                          <option value="Наличные" selected>Наличные</option>
                           <option value="Я-деньги">Я-деньги</option>
                           <option value="Безналичные">Безналичные</option>
-                          <option value="Cчет">Cчет</option>
+                          <option value="Счет">Счет</option>
+                        </select>
+                        <label for="floatingSelect">Форма расчета</label>
+                    </div>
+                    <!--div class="form-floating">
+                        <select class="form-select"  aria-label="Floating label select example" name="status_materials">
+                          <option value="1" selected>Наличные</option>
+                          <option value="2">Я-деньги</option>
+                          <option value="3">Безналичные</option>
+                          <option value="4">чет</option>
                         </select>
                         <label for="floatingSelect">Статус материалов к заказу</label>
-                    </div>
+                    </!div-->
                 </div>
             </div>
             <br>
@@ -68,16 +72,24 @@
                         </tr>
                     </thead>
                     <tbody id="tbody-baget">
-                        <tr>
-                            <td><input type="text" class="form-control" name="article_baget[0]"></td>
-                            <td><input type="text" class="form-control" name="chop[0]"></td>
-                            <td><input type="text" class="form-control" name="window_size[0]"></td>
-                            <td><input type="text" class="form-control" name="article_kanta[0]"></td>
-                            <td><input type="text" class="form-control" name="article_pasp[0]"></td>
-                            <td><input type="text" class="form-control" name="field_width[0]"> </td>
-                            <td><input type="text" class="form-control" name="quantity[0]"></td>
-                            <td><input type="text" class="form-control" name="amount[0]"></td>
-                        </tr>
+                        @php
+                            $count = 0;
+                        @endphp
+                        @foreach ($orderItems as $orderItem)
+                            <tr>
+                                <td><input type="text" class="form-control" name="article_baget[{{ $count }}]" value="{{ $orderItem->article_baget }}" required></td>
+                                <td><input type="text" class="form-control" name="chop[{{ $count }}]" value="{{ $orderItem->chop }}"></td>
+                                <td><input type="text" class="form-control" name="window_size[{{ $count }}]" value="{{ $orderItem->window_size }}"></td>
+                                <td><input type="text" class="form-control" name="article_kanta[{{ $count }}]" value="{{ $orderItem->article_kanta }}"></td>
+                                <td><input type="text" class="form-control" name="article_pasp[{{ $count }}]" value="{{ $orderItem->article_pasp }}"></td>
+                                <td><input type="text" class="form-control" name="field_width[{{ $count }}]" value="{{ $orderItem->field_width }}"> </td>
+                                <td><input type="text" class="form-control" name="quantity[{{ $count }}]" value="{{ $orderItem->quantity }}" required></td>
+                                <td><input type="text" class="form-control" name="amount[{{ $count }}]" value="{{ $orderItem->amount }}" required></td>
+                            </tr>
+                        @php
+                            $count = $count + 1;
+                        @endphp
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -89,35 +101,45 @@
 
             <div class="row">
                 <div class="col">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Без работы
+                        </label>
+                    </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="prepayment">
+                        <input type="number" class="form-control"  placeholder="name@example.com" name="prepayment" value="{{ $orderNew->prepayment }}">
                         <label for="floatingInput">Предоплата</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="total_amount">
+                        <input type="number" class="form-control"  placeholder="name@example.com" name="total_amount" value="{{ $orderNew->total_amount }}" required>
                         <label for="floatingInput">Итого</label>
                     </div>
+
                 </div>
                 <div class="col">
-                    <div class="form-floating mb-3">
+                    <!--div class="form-floating mb-3">
                         <select class="form-select"  aria-label="Floating label select example" name="payment_status">
-                            <option value="Не выбрано" selected>Не выбрано</option>
-                            <option value="1">Наличные</option>
-                            <option value="2">Я-деньги</option>
-                            <option value="3">Безналичные</option>
-                            <option value="4">чет</option>
+                          <option value="1" selected>Наличные</option>
+                          <option value="2">Я-деньги</option>
+                          <option value="3">Безналичные</option>
+                          <option value="4">чет</option>
                         </select>
                         <label for="floatingSelect">Статус оплаты</label>
+                    </!div-->
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 80px" name="delivery" >{{ $orderNew->delivery }}</textarea>
+                        <label for="floatingTextarea2">Доставка</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="delivery"></textarea>
-                        <label for="floatingTextarea2">Доставка</label>
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 80px" name="comment" >{{ $orderNew->comment }}</textarea>
+                        <label for="floatingTextarea2">Комментарий</label>
                     </div>
                 </div>
             </div>
 
-            <!--button type="submit" class="btn btn-primary">Создать</button -->
-            <button type="button" class="btn btn-primary" id="create-button">Сохранить</button>
+            <button type="submit" class="btn btn-primary" id="create-button">Сохранить</button>
           </form>
     </div>
 
@@ -129,7 +151,7 @@
     <script>
         $("#client_phone").mask("8-999-999-99-99");
 
-        var countRow = 1;
+        var countRow = {{ $count }};
 
         (function () {
             'use strict'
@@ -212,7 +234,7 @@
         }
 
         $(document).on('click', '#add-row-table', function() { addRowTable() }); // Добавление новой строки в таблице
-        $(document).on('click', '#create-button', function() { createButton() }); // Отправка запроса на добавление нового заказа
+        //$(document).on('click', '#create-button', function() { createButton() }); // Отправка запроса на добавление нового заказа
 
     </script>
 @endsection

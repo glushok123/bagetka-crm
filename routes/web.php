@@ -14,27 +14,22 @@ use App\Http\Controllers\PDFController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(["middleware" => ["web", "admin"]], function () {
+    Route::get('/', 'App\Http\Controllers\OrderController@showOrdersBaget');
+
+    Route::group(['prefix'=>'orders'], function(){
+        Route::get('show/baget', 'App\Http\Controllers\OrderController@showOrdersBaget')->name('orders.show');
+        Route::get('create/', 'App\Http\Controllers\OrderController@showCreateForm')->name('orders.create');
+        Route::get('create/post/', 'App\Http\Controllers\OrderController@createOrder')->name('orders.create.post');
+        Route::get('edit/post/', 'App\Http\Controllers\OrderController@editOrder')->name('orders.edit.post');
+        Route::get('edit/{id}', 'App\Http\Controllers\OrderController@showEditForm')->name('orders.edit');
+        Route::post('get/json', 'App\Http\Controllers\OrderController@getOrdersJson')->name('orders.get.json');
+        Route::get('print-pdf/{id}', [PDFController::class, 'generatePDFForPrint'])->name('orders.pdf.print');
+        Route::get('download-pdf/{id}', [PDFController::class, 'generatePDFForDownload'])->name('orders.pdf.download');
+    });
+
+    Route::group(['prefix'=>'calendar'], function(){
+        Route::get('show', 'App\Http\Controllers\CalendarController@show')->name('calendar.show');
+        Route::get('get/json', 'App\Http\Controllers\CalendarController@getOrdersJson')->name('calendar.get.json');
+    });
 });
-
-
-Route::get('orders/show/baget', 'App\Http\Controllers\OrderController@showOrdersBaget')->name('orders.show');
-Route::post('orders/get/json', 'App\Http\Controllers\OrderController@getOrdersJson')->name('orders.get.json');
-
-Route::get('orders/create/', 'App\Http\Controllers\OrderController@showCreateForm');
-Route::get('orders/edit/{id}', 'App\Http\Controllers\OrderController@showEditForm')->name('orders.edit');
-Route::post('orders/create/', 'App\Http\Controllers\OrderController@showCreateFormPost');
-
-
-Route::get('orders/print-pdf/{id}', [PDFController::class, 'generatePDFForPrint'])->name('orders.pdf.print');
-Route::get('orders/download-pdf/{id}', [PDFController::class, 'generatePDFForDownload'])->name('orders.pdf.download');
-
-
-Route::get('calendar/show', 'App\Http\Controllers\CalendarController@show');
-Route::get('calendar/get/json', 'App\Http\Controllers\CalendarController@getOrdersJson')->name('orders.get.json');
-
-Route::post('/register', 'App\Http\Controllers\RegisterUserController@registerUser')->name('register');
-Route::post('/order/test', 'App\Http\Controllers\OrderController@test')->name('order.test');
-
-

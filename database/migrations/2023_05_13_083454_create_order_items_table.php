@@ -15,18 +15,18 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('orders_id');
+            $table->bigInteger('orders_id')->nullable();
+            $table->string('article_baget')->nullable()->comment('Артикул багета');
+            $table->string('chop')->nullable()->comment('Внутренний размер рамы (ЧОП)');
+            $table->string('window_size')->nullable()->comment('Размер окна (работы)');
+            $table->string('article_kanta')->nullable()->comment('Артикул канта');
+            $table->string('article_pasp')->nullable()->comment('Артикул паспарту');
+            $table->string('field_width')->nullable()->comment('Ширина поля');
+            $table->string('quantity')->nullable()->comment('Кол-во');
+            $table->string('amount')->nullable()->comment('Сумма');
+            $table->string('backdrop')->nullable()->comment('Задник');
+            $table->string('glass')->nullable()->comment('Стекло');
 
-            $table->string('article_baget')->comment('Артикул багета');
-            $table->string('chop')->comment('Внутренний размер рамы (ЧОП)');
-            $table->string('window_size')->comment('Размер окна (работы)');
-            $table->string('article_kanta')->comment('Артикул канта');
-            $table->string('article_pasp')->comment('Артикул паспарту');
-            $table->string('field_width')->comment('Ширина поля');
-            $table->string('quantity')->comment('Кол-во');
-            $table->string('amount')->comment('Сумма');
-
-            $table->foreign('orders_id')->references('id')->on('orders');
             $table->timestamps();
         });
     }

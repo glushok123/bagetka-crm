@@ -9,37 +9,42 @@
 
         <hr>
 
-        <form action="/" method="post" class="needs-validation" id="myForm">
+        <form action="{{ route('orders.create.post') }}" method="get" class="needs-validation" id="myForm">
             <div class="row">
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="client_name">
+                        <input type="text" class="form-control" placeholder="name@example.com" name="order_number">
+                        <label for="floatingInput">Номер заказа</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="name@example.com" name="client_name" required>
                         <label for="floatingInput">ФИО клиента</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="client_phone" placeholder="name@example.com" name="client_phone">
+                        <input type="text" class="form-control" id="client_phone" placeholder="name@example.com" name="client_phone" required>
                         <label for="floatingInput">Контактный телефон</label>
                     </div>
-                    <div class="form-floating">
-                        <select class="form-select"  aria-label="Floating label select example" name="payment_method">
-                          <option value="1" selected>Наличные</option>
-                          <option value="2">Я-деньги</option>
-                          <option value="3">Безналичные</option>
-                          <option value="4">чет</option>
-                        </select>
-                        <label for="floatingSelect">Форма расчета</label>
-                    </div>
+
                 </div>
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception">
+                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" required>
                         <label for="floatingInput">Дата приема</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance">
+                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" required>
                         <label for="floatingInput">Дата выдачи</label>
                     </div>
                     <div class="form-floating">
+                        <select class="form-select"  aria-label="Floating label select example" name="payment_method" required>
+                          <option value="Наличные" selected>Наличные</option>
+                          <option value="Я-деньги">Я-деньги</option>
+                          <option value="Безналичные">Безналичные</option>
+                          <option value="Счет">Счет</option>
+                        </select>
+                        <label for="floatingSelect">Форма расчета</label>
+                    </div>
+                    <!--div class="form-floating">
                         <select class="form-select"  aria-label="Floating label select example" name="status_materials">
                           <option value="1" selected>Наличные</option>
                           <option value="2">Я-деньги</option>
@@ -47,7 +52,7 @@
                           <option value="4">чет</option>
                         </select>
                         <label for="floatingSelect">Статус материалов к заказу</label>
-                    </div>
+                    </!div-->
                 </div>
             </div>
             <br>
@@ -67,14 +72,14 @@
                     </thead>
                     <tbody id="tbody-baget">
                         <tr>
-                            <td><input type="text" class="form-control" name="article_baget[0]"></td>
+                            <td><input type="text" class="form-control" name="article_baget[0]" required></td>
                             <td><input type="text" class="form-control" name="chop[0]"></td>
                             <td><input type="text" class="form-control" name="window_size[0]"></td>
                             <td><input type="text" class="form-control" name="article_kanta[0]"></td>
                             <td><input type="text" class="form-control" name="article_pasp[0]"></td>
                             <td><input type="text" class="form-control" name="field_width[0]"> </td>
-                            <td><input type="text" class="form-control" name="quantity[0]"></td>
-                            <td><input type="text" class="form-control" name="amount[0]"></td>
+                            <td><input type="text" class="form-control" name="quantity[0]" required></td>
+                            <td><input type="text" class="form-control" name="amount[0]" required></td>
                         </tr>
                     </tbody>
                 </table>
@@ -87,17 +92,24 @@
 
             <div class="row">
                 <div class="col">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Без работы
+                        </label>
+                    </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="prepayment">
+                        <input type="number" class="form-control"  placeholder="name@example.com" name="prepayment">
                         <label for="floatingInput">Предоплата</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control"  placeholder="name@example.com" name="total_amount">
+                        <input type="number" class="form-control"  placeholder="name@example.com" name="total_amount" required>
                         <label for="floatingInput">Итого</label>
                     </div>
+
                 </div>
                 <div class="col">
-                    <div class="form-floating mb-3">
+                    <!--div class="form-floating mb-3">
                         <select class="form-select"  aria-label="Floating label select example" name="payment_status">
                           <option value="1" selected>Наличные</option>
                           <option value="2">Я-деньги</option>
@@ -105,16 +117,20 @@
                           <option value="4">чет</option>
                         </select>
                         <label for="floatingSelect">Статус оплаты</label>
+                    </!div-->
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 80px" name="delivery"></textarea>
+                        <label for="floatingTextarea2">Доставка</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="delivery"></textarea>
-                        <label for="floatingTextarea2">Доставка</label>
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 80px" name="comment"></textarea>
+                        <label for="floatingTextarea2">Комментарий</label>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Создать</button>
-            <button type="button" class="btn btn-primary" id="create-button">ТЕСТ</button>
+            <button type="submit" class="btn btn-primary" id="create-button">Сохранить</button>
           </form>
     </div>
 
@@ -150,14 +166,14 @@
 
         function addRowTable() {
             let blockHtml = '<tr>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_baget[' + countRow + ']"></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_baget[' + countRow + ']" required></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="chop[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="window_size[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_kanta[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_pasp[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="field_width[' + countRow + ']"></td>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']"></td>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']"></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']" required></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']" required></td>';
             blockHtml = blockHtml + '</tr>';
             $('#tbody-baget').append(blockHtml);
             countRow = countRow + 1;
@@ -178,7 +194,7 @@
 
             let formData = new FormData($('#myForm')[0])
             console.log(formData)
-            $.ajax({
+            /*$.ajax({
                 url: 'http://localhost:8083/orders/create',
                 method: 'post',
                 cache: false,
@@ -205,11 +221,11 @@
                         alert('Uncaught Error. ' + jqXHR.responseText);
                     }
                 }
-            });
+            });*/
         }
 
         $(document).on('click', '#add-row-table', function() { addRowTable() }); // Добавление новой строки в таблице
-        $(document).on('click', '#create-button', function() { createButton() }); // Отправка запроса на добавление нового заказа
+        //$(document).on('click', '#create-button', function() { createButton() }); // Отправка запроса на добавление нового заказа
 
     </script>
 @endsection

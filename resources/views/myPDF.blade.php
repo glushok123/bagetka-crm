@@ -13,7 +13,7 @@
             font-size: 11px;
         }
         .custom-margin-top{
-            margin-top:10px;
+            margin-top:5px;
         }
         .custom-padding-top{
             padding-top:10px;
@@ -54,14 +54,14 @@
         <table width="100%" class="custom-margin-top">
             <tr class="spaceUnder">
                 <td class="text-start"><span>Форма расчета: <b>{{ $orderNew->payment_method }}</b> </span></td>
-                <td class="text-end"><span>Принял: ___________________ </span></td>
+                <td class="text-end"><span>Принял: <b>{{ $orderNew->employee_name }}</b> </span></td>
             </tr>
             <tr class="spaceUnder">
                 <td class="text-end" colspan="2"><span style="margin-right: 10px;">Дата приема: <b> {{ $orderNew->date_reception }} </b> </span><span>Дата выдачи: <b> {{ $orderNew->date_issuance }} </b> </span></td>
             </tr>
             <tr class="spaceUnder">
                 <td class="text-start" style="width:60%"><span>ФИО клиента:<b> {{ $orderNew->client_name }} </b>  </span> <br> <span>Контактный телефон :  <b> {{ $orderNew->client_phone }} </b> </span></td>
-                <td class="" style="width:40%">
+                <td class="" style="width:35%">
                     <div style="border: 1px solid black; min-height: 70px;">
                         <div class="row">
                             <span class="fst-italic" style="margin-left: 5px;">Статус материалов к заказу</span>
@@ -117,22 +117,14 @@
             @endphp
             @foreach ($orderItems as $orderItem)
                 <td >
-                    <div style="border: 1px solid black; margin:3px;">
+                    <div style="border: 1px solid black; margin:3px; ">
                         <span class="text-start">№ {{ $count }}</span>
                         
                         <div>
-                            <span>Задник</span>
-                            <div>
-                                <input type="checkbox" id="scales" name="scales custom-checkbox" checked>
-                                <label for="scales">Scales</label>
-                            </div>
+                            <span>Задник: </span><span><b>{{ $orderItem->backdrop}}</b></span>
                         </div>
-                        <hr>
                         <div>
-                            <span>Стекло</span>
-                            <div>
-                                <span>БЛА БЛА БЛА</span>
-                            </div>
+                            <span>Стекло: </span><span><b>{{ $orderItem->glass}}</b></span>
                         </div>
                     </div>
                 </td>
@@ -140,22 +132,29 @@
                     $count = $count + 1;
                 @endphp
             @endforeach
-            @foreach([0,0,0] as $user)
-
-                    
-
-            @endforeach
-
 
         </tr>
 
     </table>
 
-            
+
+    <table class="table  " >
+        <tr class="text-end " >
+           <td>
+                          <div>
+                                <input type="checkbox" id="scales" name="scales custom-checkbox" {{ $orderNew->out_of_work == 1 ? 'checked' : ''}}>
+                                <label for="scales">Без работы</label>
+                            </div>
+           </td>
+
+        </tr>
+
+    </table>
+
     <table width="100%" class="">
         <tr class="spaceUnder">
             <td  style="width:50%">
-                <div style="border: 1px solid black; min-height: 170px;">
+                <div style="border: 1px solid black; min-height: 190px;">
                     <div class="row">
                         <span class="fst-italic" style="margin-left: 5px;">Схема работы/описание</span>
                     </div>
@@ -165,12 +164,13 @@
                 <table width="100%" class="custom-margin-top">
                     <tr class="spaceUnder">
                         <td  style="width:50%">
-                            <div style="border: 1px solid black; min-height: 40px;">
+                            <div style="border: 1px solid black; min-height: 30px;">
                                 <div class="row">
                                     <span class="fst-italic" style="margin-left: 5px;">Предоплата:</span>
+                                    <h3 style="margin-left: 5px;">{{ $orderNew->prepayment }}</h3>
                                 </div>
                             </div>
-                            <div style="border: 1px solid black; min-height: 40px;">
+                            <div style="border: 1px solid black; border-top: none; min-height: 30px;">
                                 <div class="row">
                                     <span class="fst-italic" style="margin-left: 5px;">Итого:</span>
                                     <h2 style="margin-left: 5px;">{{ $orderNew->total_amount }}</h2>
@@ -178,7 +178,7 @@
                             </div>
                         </td>
                         <td>
-                            <div style="border: 1px solid black; min-height: 80px;">
+                            <div style="border: 1px solid black; min-height: 86px;">
                                 <div class="row">
                                     <span class="fst-italic" style="margin-left: 5px;">Статус оплаты</span>
                                 </div>
@@ -208,7 +208,7 @@
         <tr>
             <td style="width:40%">
                 <span class="text-bold">Бланк заказа № {{ $orderNew->order_number }}</span><br>
-                <span class="text-bold">Дата получения __________</span><br><br>
+                <span class="text-bold">Дата получения <b> {{ $orderNew->date_issuance }} </b></span><br><br>
 
                 <div style="border: 1px solid black; min-height: 80px;">
                     <div class="row">

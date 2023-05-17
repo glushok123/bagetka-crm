@@ -73,9 +73,9 @@
 				  <li class="nav-item">
 					<a class="nav-link" href="{{ route('calendar.show') }}">Календарь</a>
 				  </li>
-				  <li class="nav-item">
+				  <!--li class="nav-item">
 					<a class="nav-link" href="#">Статистика</a>
-				  </li>
+				  </!li>
 				  <li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					  Dropdown
@@ -89,11 +89,13 @@
 				  </li>
 				  <li class="nav-item">
 					<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-				  </li>
+				  </li -->
 				</ul>
 				<form class="d-flex">
-				  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-				  <button class="btn btn-outline-success" type="submit">Search</button>
+					@if (backpack_auth() == true)
+						<a href="{{ backpack_url('dashboard') }}" class="btn btn-outline-success m-2" >Админка</a>
+						<a href="{{ backpack_url('logout') }}" class="btn btn-outline-success m-2" >Выход</a>
+					@endif
 				</form>
 			  </div>
 			</div>

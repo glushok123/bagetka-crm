@@ -6,7 +6,8 @@
         <div class="row text-center">
             <h2>Форма редактирования заказа № {{ $orderOld->numberord }} ({{ $orderNew->id}})</h2>
         </div>
-
+                <a href="{{ route('orders.pdf.print', ['id' => $orderOld->id]) }}" type="button" class="btn btn-outline-info" title="Отправить на печать"><i class="bi bi-printer-fill"></i></a>
+                <a href="{{ route('orders.pdf.download', ['id' => $orderOld->id]) }}" type="button" class="btn btn-outline-danger" title="Скачать pdf"><i class="bi bi-file-earmark-pdf"></i></a>
         <hr>
 
         <form action="{{ route('orders.edit.post') }}" method="get" class="needs-validation" id="myForm">
@@ -14,7 +15,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" placeholder="name@example.com" name="order_number" value="{{ $orderNew->order_number }}">
+                        <input type="number" class="form-control" placeholder="name@example.com" name="order_number" value="{{ $orderNew->order_number }}">
                         <label for="floatingInput">Номер заказа</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -29,19 +30,32 @@
                 </div>
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" value="{{ $orderNew->date_reception }}" required>
-                        <label for="floatingInput">Дата приема</label>
+                        <input type="text" class="form-control" placeholder="name@example.com" name="employee_name" value="{{ $orderNew->employee_name }}" required>
+                        <label for="floatingInput">ФИО сотрудника</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" value="{{ $orderNew->date_issuance }}" required>
-                        <label for="floatingInput">Дата выдачи</label>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" value="{{ $orderNew->date_reception }}" required>
+                                <label for="floatingInput">Дата приема</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" value="{{ $orderNew->date_issuance }}" required>
+                                <label for="floatingInput">Дата выдачи</label>
+                            </div>
+                        </div>
                     </div>
+
+
                     <div class="form-floating">
                         <select class="form-select"  aria-label="Floating label select example" name="payment_method" required>
-                          <option value="Наличные" selected>Наличные</option>
-                          <option value="Я-деньги">Я-деньги</option>
-                          <option value="Безналичные">Безналичные</option>
-                          <option value="Счет">Счет</option>
+                            <option value="Наличные" {{ $orderNew->payment_method == 'Наличные' ? 'selected' : '' }}>Наличные</option>
+                            <option value="Я-деньги" {{ $orderNew->payment_method == 'Я-деньги' ? 'selected' : '' }}>Я-деньги</option>
+                            <option value="Безналичные" {{ $orderNew->payment_method == 'Безналичные' ? 'selected' : '' }}>Безналичные</option>
+                            <option value="Счет" {{ $orderNew->payment_method == 'Счет' ? 'selected' : '' }}>Счет</option>
                         </select>
                         <label for="floatingSelect">Форма расчета</label>
                     </div>
@@ -86,6 +100,32 @@
                                 <td><input type="text" class="form-control" name="quantity[{{ $count }}]" value="{{ $orderItem->quantity }}" required></td>
                                 <td><input type="text" class="form-control" name="amount[{{ $count }}]" value="{{ $orderItem->amount }}" required></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-floating">
+                                        <select class="form-select" aria-label="Floating label select example" name="backdrop[{{ $count }}]" >
+                                            <option value="Не выбрано" {{ $orderItem->backdrop == 'Не выбрано' ? 'selected' : '' }}>Не выбрано</option>
+                                            <option value="Картон" {{ $orderItem->backdrop == 'Картон' ? 'selected' : '' }}>Картон</option>
+                                            <option value="Пенокартон" {{ $orderItem->backdrop == 'Пенокартон' ? 'selected' : '' }}>Пенокартон</option>
+                                            <option value="Накатка" {{ $orderItem->backdrop == 'Накатка' ? 'selected' : '' }}>Накатка</option>
+                                            <option value="Подрамник" {{ $orderItem->backdrop == 'Подрамник' ? 'selected' : '' }}>Подрамник</option>
+                                        </select>
+                                        <label for="floatingSelect">Задник</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-floating">
+                                        <select class="form-select" aria-label="Floating label select example" name="glass[{{ $count }}]" >
+                                        <option value="Не выбрано" {{ $orderItem->glass == 'Не выбрано' ? 'selected' : '' }}>Не выбрано</option>
+                                        <option value="Матовое" {{ $orderItem->glass == 'Матовое' ? 'selected' : '' }}>Матовое</option>
+                                        <option value="Обычное" {{ $orderItem->glass == 'Обычное' ? 'selected' : '' }}>Обычное</option>
+                                        <option value="Пластик" {{ $orderItem->glass == 'Пластик' ? 'selected' : '' }}>Пластик</option>
+                                        <option value="Антиблик" {{ $orderItem->glass == 'Антиблик' ? 'selected' : '' }}>Антиблик</option>
+                                        </select>
+                                        <label for="floatingSelect">Стекло</label>
+                                    </div>
+                                </td>
+                        </tr>
                         @php
                             $count = $count + 1;
                         @endphp
@@ -102,7 +142,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="out_of_work" {{ $orderNew->out_of_work == 1 ? 'checked' : ''}}>
                         <label class="form-check-label" for="flexCheckDefault">
                             Без работы
                         </label>
@@ -147,7 +187,6 @@
 
 @section('after_scripts')
 
-
     <script>
         $("#client_phone").mask("8-999-999-99-99");
 
@@ -174,7 +213,7 @@
         })()
 
         function addRowTable() {
-            let blockHtml = '<tr>';
+            let blockHtml = '       <tr>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_baget[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="chop[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="window_size[' + countRow + ']"></td>';
@@ -184,6 +223,33 @@
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']"></td>';
             blockHtml = blockHtml + '</tr>';
+            blockHtml = blockHtml + '<tr>';
+            blockHtml = blockHtml + '   <td>';
+            blockHtml = blockHtml + '       <div class="form-floating">';
+            blockHtml = blockHtml + '           <select class="form-select" aria-label="Floating label select example" name="backdrop[' + countRow + ']" >';
+            blockHtml = blockHtml + '               <option value="Не выбрано">Не выбрано</option>';
+            blockHtml = blockHtml + '               <option value="Картон" >Картон</option>';
+            blockHtml = blockHtml + '               <option value="Пенокартон">Пенокартон</option>';
+            blockHtml = blockHtml + '               <option value="Накатка">Накатка</option>';
+            blockHtml = blockHtml + '               <option value="Подрамник">Подрамник</option>';
+            blockHtml = blockHtml + '           </select>';
+            blockHtml = blockHtml + '           <label for="floatingSelect">Задник</label>';
+            blockHtml = blockHtml + '       </div>';
+            blockHtml = blockHtml + '   </td>';
+            blockHtml = blockHtml + '<td>';
+            blockHtml = blockHtml + '   <div class="form-floating">';
+            blockHtml = blockHtml + '       <select class="form-select" aria-label="Floating label select example" name="glass[' + countRow + ']" >';
+            blockHtml = blockHtml + '           <option value="Не выбрано">Не выбрано</option>';
+            blockHtml = blockHtml + '           <option value="Матовое">Матовое</option>';
+            blockHtml = blockHtml + '           <option value="Обычное">Обычное</option>';
+            blockHtml = blockHtml + '           <option value="Пластик">Пластик</option>';
+            blockHtml = blockHtml + '           <option value="Антиблик">Антиблик</option>';
+            blockHtml = blockHtml + '       </select>';
+            blockHtml = blockHtml + '       <label for="floatingSelect">Стекло</label>';
+            blockHtml = blockHtml + '    </div>';
+            blockHtml = blockHtml + '</td>';
+            blockHtml = blockHtml + '</tr>';
+
             $('#tbody-baget').append(blockHtml);
             countRow = countRow + 1;
         }

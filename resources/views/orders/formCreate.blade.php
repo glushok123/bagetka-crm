@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" placeholder="name@example.com" name="order_number">
+                        <input type="number" class="form-control" placeholder="name@example.com" name="order_number">
                         <label for="floatingInput">Номер заказа</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -28,15 +28,27 @@
                 </div>
                 <div class="col">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" required>
-                        <label for="floatingInput">Дата приема</label>
+                        <input type="text" class="form-control" placeholder="name@example.com" name="employee_name" required>
+                        <label for="floatingInput">ФИО сотрудника</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" required>
-                        <label for="floatingInput">Дата выдачи</label>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_reception" required>
+                                <label for="floatingInput">Дата приема</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" required>
+                                <label for="floatingInput">Дата выдачи</label>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-floating">
-                        <select class="form-select"  aria-label="Floating label select example" name="payment_method" required>
+                        <select class="form-select" aria-label="Floating label select example" name="payment_method" required>
                           <option value="Наличные" selected>Наличные</option>
                           <option value="Я-деньги">Я-деньги</option>
                           <option value="Безналичные">Безналичные</option>
@@ -44,6 +56,7 @@
                         </select>
                         <label for="floatingSelect">Форма расчета</label>
                     </div>
+
                     <!--div class="form-floating">
                         <select class="form-select"  aria-label="Floating label select example" name="status_materials">
                           <option value="1" selected>Наличные</option>
@@ -81,6 +94,33 @@
                             <td><input type="text" class="form-control" name="quantity[0]" required></td>
                             <td><input type="text" class="form-control" name="amount[0]" required></td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div class="form-floating">
+                                    <select class="form-select" aria-label="Floating label select example" name="backdrop[0]" >
+                                        <option value="Не выбрано">Не выбрано</option>
+                                        <option value="Картон" >Картон</option>
+                                        <option value="Пенокартон">Пенокартон</option>
+                                        <option value="Накатка">Накатка</option>
+                                        <option value="Подрамник">Подрамник</option>
+                                    </select>
+                                    <label for="floatingSelect">Задник</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-floating">
+                                    <select class="form-select" aria-label="Floating label select example" name="glass[0]" >
+                                    <option value="Не выбрано">Не выбрано</option>
+                                    <option value="Матовое">Матовое</option>
+                                    <option value="Обычное">Обычное</option>
+                                    <option value="Пластик">Пластик</option>
+                                    <option value="Антиблик">Антиблик</option>
+                                    </select>
+                                    <label for="floatingSelect">Стекло</label>
+                                </div>
+                            </td>
+
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -93,7 +133,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <input class="form-check-input" type="checkbox" name="out_of_work">
                         <label class="form-check-label" for="flexCheckDefault">
                             Без работы
                         </label>
@@ -138,7 +178,6 @@
 
 @section('after_scripts')
 
-
     <script>
         $("#client_phone").mask("8-999-999-99-99");
 
@@ -147,10 +186,8 @@
         (function () {
             'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.querySelectorAll('.needs-validation')
 
-            // Loop over them and prevent submission
             Array.prototype.slice.call(forms)
                 .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
@@ -175,58 +212,38 @@
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']" required></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']" required></td>';
             blockHtml = blockHtml + '</tr>';
+            blockHtml = blockHtml + '<tr>';
+            blockHtml = blockHtml + '   <td>';
+            blockHtml = blockHtml + '       <div class="form-floating">';
+            blockHtml = blockHtml + '           <select class="form-select" aria-label="Floating label select example" name="backdrop[' + countRow + ']" >';
+            blockHtml = blockHtml + '               <option value="Не выбрано">Не выбрано</option>';
+            blockHtml = blockHtml + '               <option value="Картон" >Картон</option>';
+            blockHtml = blockHtml + '               <option value="Пенокартон">Пенокартон</option>';
+            blockHtml = blockHtml + '               <option value="Накатка">Накатка</option>';
+            blockHtml = blockHtml + '               <option value="Подрамник">Подрамник</option>';
+            blockHtml = blockHtml + '           </select>';
+            blockHtml = blockHtml + '           <label for="floatingSelect">Задник</label>';
+            blockHtml = blockHtml + '       </div>';
+            blockHtml = blockHtml + '   </td>';
+            blockHtml = blockHtml + '<td>';
+            blockHtml = blockHtml + '   <div class="form-floating">';
+            blockHtml = blockHtml + '       <select class="form-select" aria-label="Floating label select example" name="glass[' + countRow + ']" >';
+            blockHtml = blockHtml + '           <option value="Не выбрано">Не выбрано</option>';
+            blockHtml = blockHtml + '           <option value="Матовое">Матовое</option>';
+            blockHtml = blockHtml + '           <option value="Обычное">Обычное</option>';
+            blockHtml = blockHtml + '           <option value="Пластик">Пластик</option>';
+            blockHtml = blockHtml + '           <option value="Антиблик">Антиблик</option>';
+            blockHtml = blockHtml + '       </select>';
+            blockHtml = blockHtml + '       <label for="floatingSelect">Стекло</label>';
+            blockHtml = blockHtml + '    </div>';
+            blockHtml = blockHtml + '</td>';
+            blockHtml = blockHtml + '</tr>';
+
             $('#tbody-baget').append(blockHtml);
             countRow = countRow + 1;
         }
 
-        function createButton() {
-
-            var data = {};
-            // переберём все элементы input, textarea и select формы с id="myForm "
-            $('#myForm').find ('input, textearea, select').each(function() {
-                // добавим новое свойство к объекту $data
-                // имя свойства – значение атрибута name элемента
-                // значение свойства – значение свойство value элемента
-                data[this.name] = $(this).val();
-            });
-
-            console.log(data)
-
-            let formData = new FormData($('#myForm')[0])
-            console.log(formData)
-            /*$.ajax({
-                url: 'http://localhost:8083/orders/create',
-                method: 'post',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function(data){
-                    console.log(formData)
-                },
-                error: function (jqXHR, exception) {
-                    if (jqXHR.status === 0) {
-                        alert('Not connect. Verify Network.');
-                    } else if (jqXHR.status == 404) {
-                        alert('Requested page not found (404).');
-                    } else if (jqXHR.status == 500) {
-                        alert('Internal Server Error (500).');
-                    } else if (exception === 'parsererror') {
-                        alert('Requested JSON parse failed.');
-                    } else if (exception === 'timeout') {
-                        alert('Time out error.');
-                    } else if (exception === 'abort') {
-                        alert('Ajax request aborted.');
-                    } else {
-                        alert('Uncaught Error. ' + jqXHR.responseText);
-                    }
-                }
-            });*/
-        }
-
         $(document).on('click', '#add-row-table', function() { addRowTable() }); // Добавление новой строки в таблице
-        //$(document).on('click', '#create-button', function() { createButton() }); // Отправка запроса на добавление нового заказа
-
     </script>
 @endsection
 

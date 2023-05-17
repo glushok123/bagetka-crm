@@ -8,33 +8,51 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\View\View;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class OrderController extends Controller
 {
-
-    public function showOrdersBaget()
+    /**
+     * Список всех заказов
+     * 
+     * @return View
+     */
+    public function showOrdersBaget(): View
     {
         $orders = DB::connection('mysqlbagetnaya')->table('calendar')->get();
-
-        //Session::flash('message', 'This is a message!');
-        //Session::flash('alert-class', 'alert-danger');
-        //Session::flash('alert-class', 'alert-success');
 
         return view('orders.showOrdersBaget', [
           'orders' => $orders
         ]);
     }
 
-    public function showCreateForm(Request $request)
+    /**
+     * Форма создания заказа
+     * 
+     * @param Request $request
+     * 
+     * @return View
+     */
+    public function showCreateForm(Request $request): View
     {
         return view('orders.formCreate');
     }
 
-    public function showEditForm(int $orderId)
+    /**
+     * Форма редактирования заказа
+     * 
+     * @param int $orderId
+     * 
+     * @return View
+     */
+    public function showEditForm(int $orderId): View
     {
         $orderOld = DB::connection('mysqlbagetnaya')->table('calendar')->where('id', $orderId)->first();
 
@@ -67,11 +85,20 @@ class OrderController extends Controller
         ]);
     }
 
-    public function editOrder(Request $request)
+    /**
+     * Запрос на изменение заказа
+     * 
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function editOrder(Request $request): RedirectResponse
     {
         $order = Order::where('id', $request->new_order_id)->first();
         $order->order_number = empty($request->order_number) == true ? rand(1, 300) : $request->order_number;
         $order->client_name = $request->client_name;
+        $order->employee_name = $request->employee_name;
+        $order->out_of_work = empty($request->out_of_work) == true ? 0 : 1;
         $order->client_phone = $request->client_phone;
         $order->payment_method = $request->payment_method;
         $order->date_reception = $request->date_reception;
@@ -96,6 +123,8 @@ class OrderController extends Controller
             $orderItem->field_width = $request->field_width[$count];
             $orderItem->quantity = $request->quantity[$count];
             $orderItem->amount = $request->amount[$count];
+            $orderItem->backdrop = $request->backdrop[$count];
+            $orderItem->glass = $request->glass[$count];
             $orderItem->save();
             $count =  $count + 1;
         }
@@ -112,16 +141,22 @@ class OrderController extends Controller
         Session::flash('message', 'Заказ № ' . $order->order_number . ' (' . $order->id .') успешно изменен!');
 
         return Redirect::to(route('orders.show'));
-
     }
 
-    public function createOrder(Request $request)
+    /**
+     * Запрос на создание заказа
+     * 
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function createOrder(Request $request): RedirectResponse
     {
-        //dd($request);
-
         $order = new Order();
         $order->order_number = empty($request->order_number) == true ? rand(1, 300) : $request->order_number;
         $order->client_name = $request->client_name;
+        $order->employee_name = $request->employee_name;
+        $order->out_of_work = empty($request->out_of_work) == true ? 0 : 1;
         $order->client_phone = $request->client_phone;
         $order->payment_method = $request->payment_method;
         $order->date_reception = $request->date_reception;
@@ -144,6 +179,8 @@ class OrderController extends Controller
             $orderItem->field_width = $request->field_width[$count];
             $orderItem->quantity = $request->quantity[$count];
             $orderItem->amount = $request->amount[$count];
+            $orderItem->backdrop = $request->backdrop[$count];
+            $orderItem->glass = $request->glass[$count];
             $orderItem->save();
             $count =  $count + 1;
         }
@@ -165,10 +202,14 @@ class OrderController extends Controller
         Session::flash('message', 'Заказ № ' . $order->order_number . ' (' . $order->id .')добавлен!');
 
         return Redirect::to(route('orders.show'));
-
     }
 
-    public function getOrdersJson()
+    /**
+     * Список всех заказов в Json
+     * 
+     * @return JsonResponse
+     */
+    public function getOrdersJson(): JsonResponse
     {
         $arrayOrders = [];
         $orders = DB::connection('mysqlbagetnaya')->table('calendar')->get();

@@ -44,6 +44,10 @@
         .custom-font-size{
             font-size: 10px !important;
         }
+        .divFooter {
+            position: fixed;
+            bottom: 0;
+        }
     </style>
 
     <div class="container-fluid">
@@ -202,9 +206,11 @@
         </tr>
     </table>
 
-    <hr style="border-top: dotted 2px; background: none;" />
+  
 
-    <table>
+    <div class="divFooter">
+      <hr style="border-top: dotted 2px; background: none;" />
+        <table>
         <tr>
             <td style="width:40%">
                 <span class="text-bold">Бланк заказа № {{ $orderNew->order_number }}</span><br>
@@ -236,5 +242,7 @@
     <div class="row text-end">
         <span class="fst-italic">заказ оформлен в Багетной мастерской №1 по адресу: ул. Арбат, дом №1, ст.м. Арбатская</span>
     </div>
+    </div>
+
 </body>
 </html>

@@ -41,7 +41,7 @@
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" required>
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance">
                                 <label for="floatingInput">Дата выдачи</label>
                             </div>
                         </div>
@@ -85,14 +85,14 @@
                     </thead>
                     <tbody id="tbody-baget">
                         <tr>
-                            <td><input type="text" class="form-control" name="article_baget[0]" required></td>
+                            <td><input type="text" class="form-control" name="article_baget[0]" ></td>
                             <td><input type="text" class="form-control" name="chop[0]"></td>
                             <td><input type="text" class="form-control" name="window_size[0]"></td>
                             <td><input type="text" class="form-control" name="article_kanta[0]"></td>
                             <td><input type="text" class="form-control" name="article_pasp[0]"></td>
                             <td><input type="text" class="form-control" name="field_width[0]"> </td>
-                            <td><input type="text" class="form-control" name="quantity[0]" required></td>
-                            <td><input type="text" class="form-control" name="amount[0]" required></td>
+                            <td><input type="text" class="form-control" name="quantity[0]" ></td>
+                            <td><input type="text" class="form-control" name="amount[0]" ></td>
                         </tr>
                         <tr>
                             <td>
@@ -203,14 +203,14 @@
 
         function addRowTable() {
             let blockHtml = '<tr>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_baget[' + countRow + ']" required></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_baget[' + countRow + ']" ></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="chop[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="window_size[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_kanta[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="article_pasp[' + countRow + ']"></td>';
             blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="field_width[' + countRow + ']"></td>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']" required></td>';
-            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']" required></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="quantity[' + countRow + ']" ></td>';
+            blockHtml = blockHtml + ' <td><input type="text" class="form-control"  name="amount[' + countRow + ']" ></td>';
             blockHtml = blockHtml + '</tr>';
             blockHtml = blockHtml + '<tr>';
             blockHtml = blockHtml + '   <td>';

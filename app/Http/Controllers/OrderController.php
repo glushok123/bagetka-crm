@@ -111,23 +111,26 @@ class OrderController extends Controller
 
         OrderItems::where('orders_id', $order->id)->delete();
 
-        $count = 0;
-        foreach ($request->article_baget as $item) {
-            $orderItem = new OrderItems();
-            $orderItem->orders_id = $order->id;
-            $orderItem->article_baget = $request->article_baget[$count];
-            $orderItem->chop = $request->chop[$count];
-            $orderItem->window_size = $request->window_size[$count];
-            $orderItem->article_kanta = $request->article_kanta[$count];
-            $orderItem->article_pasp = $request->article_pasp[$count];
-            $orderItem->field_width = $request->field_width[$count];
-            $orderItem->quantity = $request->quantity[$count];
-            $orderItem->amount = $request->amount[$count];
-            $orderItem->backdrop = $request->backdrop[$count];
-            $orderItem->glass = $request->glass[$count];
-            $orderItem->save();
-            $count =  $count + 1;
+        if (empty($request->article_baget) == false) {
+            $count = 0;
+            foreach ($request->article_baget as $item) {
+                $orderItem = new OrderItems();
+                $orderItem->orders_id = $order->id;
+                $orderItem->article_baget = $request->article_baget[$count];
+                $orderItem->chop = $request->chop[$count];
+                $orderItem->window_size = $request->window_size[$count];
+                $orderItem->article_kanta = $request->article_kanta[$count];
+                $orderItem->article_pasp = $request->article_pasp[$count];
+                $orderItem->field_width = $request->field_width[$count];
+                $orderItem->quantity = $request->quantity[$count];
+                $orderItem->amount = $request->amount[$count];
+                $orderItem->backdrop = $request->backdrop[$count];
+                $orderItem->glass = $request->glass[$count];
+                $orderItem->save();
+                $count =  $count + 1;
+            }
         }
+
 
         DB::connection('mysqlbagetnaya')->table('calendar')->where('order_id', $order->id)->update([
             "datein" => $order->date_reception,
@@ -167,22 +170,24 @@ class OrderController extends Controller
         $order->comment = $request->comment;
         $order->save();
 
-        $count = 0;
-        foreach ($request->article_baget as $item) {
-            $orderItem = new OrderItems();
-            $orderItem->orders_id = $order->id;
-            $orderItem->article_baget = $request->article_baget[$count];
-            $orderItem->chop = $request->chop[$count];
-            $orderItem->window_size = $request->window_size[$count];
-            $orderItem->article_kanta = $request->article_kanta[$count];
-            $orderItem->article_pasp = $request->article_pasp[$count];
-            $orderItem->field_width = $request->field_width[$count];
-            $orderItem->quantity = $request->quantity[$count];
-            $orderItem->amount = $request->amount[$count];
-            $orderItem->backdrop = $request->backdrop[$count];
-            $orderItem->glass = $request->glass[$count];
-            $orderItem->save();
-            $count =  $count + 1;
+        if (empty($request->article_baget) == false) {
+            $count = 0;
+            foreach ($request->article_baget as $item) {
+                $orderItem = new OrderItems();
+                $orderItem->orders_id = $order->id;
+                $orderItem->article_baget = $request->article_baget[$count];
+                $orderItem->chop = $request->chop[$count];
+                $orderItem->window_size = $request->window_size[$count];
+                $orderItem->article_kanta = $request->article_kanta[$count];
+                $orderItem->article_pasp = $request->article_pasp[$count];
+                $orderItem->field_width = $request->field_width[$count];
+                $orderItem->quantity = $request->quantity[$count];
+                $orderItem->amount = $request->amount[$count];
+                $orderItem->backdrop = $request->backdrop[$count];
+                $orderItem->glass = $request->glass[$count];
+                $orderItem->save();
+                $count =  $count + 1;
+            }
         }
 
         DB::connection('mysqlbagetnaya')->table('calendar')->insert([
@@ -213,7 +218,7 @@ class OrderController extends Controller
     {
         $arrayOrders = [];
         $orders = DB::connection('mysqlbagetnaya')->table('calendar')->get();
-        
+
         foreach ($orders as $order) {
             $iconDownload1 = '';
             $iconDownload2 = '';

@@ -43,7 +43,7 @@
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" value="{{ $orderNew->date_issuance }}" required>
+                                <input type="date" class="form-control"  placeholder="name@example.com" name="date_issuance" value="{{ $orderNew->date_issuance }}">
                                 <label for="floatingInput">Дата выдачи</label>
                             </div>
                         </div>
@@ -91,14 +91,14 @@
                         @endphp
                         @foreach ($orderItems as $orderItem)
                             <tr>
-                                <td><input type="text" class="form-control" name="article_baget[{{ $count }}]" value="{{ $orderItem->article_baget }}" required></td>
+                                <td><input type="text" class="form-control" name="article_baget[{{ $count }}]" value="{{ $orderItem->article_baget }}" ></td>
                                 <td><input type="text" class="form-control" name="chop[{{ $count }}]" value="{{ $orderItem->chop }}"></td>
                                 <td><input type="text" class="form-control" name="window_size[{{ $count }}]" value="{{ $orderItem->window_size }}"></td>
                                 <td><input type="text" class="form-control" name="article_kanta[{{ $count }}]" value="{{ $orderItem->article_kanta }}"></td>
                                 <td><input type="text" class="form-control" name="article_pasp[{{ $count }}]" value="{{ $orderItem->article_pasp }}"></td>
                                 <td><input type="text" class="form-control" name="field_width[{{ $count }}]" value="{{ $orderItem->field_width }}"> </td>
-                                <td><input type="text" class="form-control" name="quantity[{{ $count }}]" value="{{ $orderItem->quantity }}" required></td>
-                                <td><input type="text" class="form-control" name="amount[{{ $count }}]" value="{{ $orderItem->amount }}" required></td>
+                                <td><input type="text" class="form-control" name="quantity[{{ $count }}]" value="{{ $orderItem->quantity }}" ></td>
+                                <td><input type="text" class="form-control" name="amount[{{ $count }}]" value="{{ $orderItem->amount }}" ></td>
                             </tr>
                             <tr>
                                 <td>

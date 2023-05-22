@@ -24,10 +24,10 @@ class CalendarController extends Controller
      * 
      * @return JsonResponse
      */
-    public function getOrdersJson(): JsonResponse
+    public function getOrdersJson(string $branch): JsonResponse
     {
         $arrayOrders = [];
-        $orders = DB::connection('mysqlbagetnaya')->table('calendar')->get();
+        $orders = DB::connection('mysqlbagetnaya')->table('calendar')->where('department', $branch)->get();
 
         foreach ($orders as $order) {
             if (Order::where('id', $order->order_id)->exists() == true) {
@@ -36,8 +36,8 @@ class CalendarController extends Controller
                 $arrayOrders[] = [
                     "id" => $order->id,
                     "title" => empty($orderNew->date_issuance) == true ? 'Заказ №' . $order->numberord . ' (прием)' : 'Заказ №' . $order->numberord . ' (выдача)',
-                    "start" =>empty($orderNew->date_issuance) == true ? $order->datein : $orderNew->date_issuance,
-                    "end" => $order->datein,
+                    "start" => empty($orderNew->date_issuance) == true ? $order->datein : $orderNew->date_issuance,
+                    "end" => empty($orderNew->date_issuance) == true ? $order->datein : $orderNew->date_issuance,
                 ];
             }
             else {

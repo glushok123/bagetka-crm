@@ -30,6 +30,6 @@ Route::group(["middleware" => ["web", "admin"]], function () {
 
     Route::group(['prefix'=>'calendar'], function(){
         Route::get('show', 'App\Http\Controllers\CalendarController@show')->name('calendar.show');
-        Route::get('get/json', 'App\Http\Controllers\CalendarController@getOrdersJson')->name('calendar.get.json');
+        Route::get('get/json/{branch}', 'App\Http\Controllers\CalendarController@getOrdersJson')->name('calendar.get.json');
     });
 });

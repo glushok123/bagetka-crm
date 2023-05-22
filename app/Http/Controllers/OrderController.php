@@ -191,7 +191,7 @@ class OrderController extends Controller
         }
 
         DB::connection('mysqlbagetnaya')->table('calendar')->insert([
-            "department" => 'arb',
+            "department" => backpack_user()->branch == 0 ? 'arb' : 'kuzn',
             "datein" => $order->date_reception,
             "numberord" => $order->order_number,
             "client_name" => $order->client_name,

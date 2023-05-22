@@ -30,9 +30,14 @@
                 initialView: 'dayGridMonth',
                 eventSources: [
                     {  
-                        url: '/calendar/get/json', // use the `url` property
+                        url: '/calendar/get/json/arb', // use the `url` property
                         //color: 'yellow',    // an option!
                         //textColor: 'black'  // an option!
+                    },
+                    {  
+                        url: '/calendar/get/json/kuzn', // use the `url` property
+                        color: 'green',    // an option!
+                        textColor: 'white'  // an option!
                     },
                 ],
                 eventClick: function(info) {

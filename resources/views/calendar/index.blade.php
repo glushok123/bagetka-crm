@@ -263,6 +263,6 @@
     </script>
 @endsection
 
-@section('description', 'Тестовое задание')
-@section('keywords', 'Тестовое задание')
-@section('title', 'Тестовое задание')
+@section('description', 'CRM Багетной мастерской')
+@section('keywords', 'CRM Багетной мастерской')
+@section('title', 'CRM Багетной мастерской')

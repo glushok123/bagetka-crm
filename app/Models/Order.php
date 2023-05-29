@@ -24,6 +24,7 @@ class Order extends Model
         'total_amount',
         'delivery',
         'comment',
+        'type_of_work',
         'created_at',
         'updated_at',
     ];

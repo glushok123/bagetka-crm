@@ -107,6 +107,7 @@ class OrderController extends Controller
         $order->total_amount = $request->total_amount;
         $order->delivery = $request->delivery;
         $order->comment = $request->comment;
+        $order->type_of_work = $request->type_of_work;
         $order->save();
 
         OrderItems::where('orders_id', $order->id)->delete();
@@ -168,6 +169,7 @@ class OrderController extends Controller
         $order->total_amount = $request->total_amount;
         $order->delivery = $request->delivery;
         $order->comment = $request->comment;
+        $order->type_of_work = $request->type_of_work;
         $order->save();
 
         if (empty($request->article_baget) == false) {

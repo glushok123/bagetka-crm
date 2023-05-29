@@ -125,7 +125,16 @@
                 </table>
             </div>
             <div class="row">
-                <button type="button" class="btn btn-info" style="max-width: 190px;" id="add-row-table">+ (добавить строку)</button>
+                <div class="col">
+                    <button type="button" class="btn btn-info" style="max-width: 190px;" id="add-row-table">+ (добавить строку)</button>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="name@example.com" name="type_of_work" >
+                        <label for="floatingInput">Вид работы</label>
+                    </div>
+                </div>
+
             </div>
 
             <br>

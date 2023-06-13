@@ -61,7 +61,7 @@
                 <td class="text-end"><span>Принял: <b>{{ $orderNew->employee_name }}</b> </span></td>
             </tr>
             <tr class="spaceUnder">
-                <td class="text-end" colspan="2"><span style="margin-right: 10px;">Дата приема: <b> {{ $orderNew->date_reception }} </b> </span><span>Дата выдачи: <b> {{ $orderNew->date_issuance }} </b> </span></td>
+                <td class="text-end" colspan="2"><span style="margin-right: 10px;">Дата приема: <b> {{ \Carbon\Carbon::parse($orderNew->date_reception)->format('d-m-Y') }} </b> </span><span>Дата выдачи: <b> {{ $orderNew->date_issuance }} </b> </span></td>
             </tr>
             <tr class="spaceUnder">
                 <td class="text-start" style="width:60%"><span>ФИО клиента:<b> {{ $orderNew->client_name }} </b>  </span> <br> <span>Контактный телефон :  <b> {{ $orderNew->client_phone }} </b> </span></td>
@@ -144,6 +144,12 @@
 
     <table class="table  " >
         <tr class="text-end " >
+            <td>
+                          <div>
+                                
+                                <label for="scales">Вид работы: {{ empty($orderNew->type_of_work) ? '' : $orderNew->type_of_work}}</label>
+                            </div>
+           </td>
            <td>
                           <div>
                                 <input type="checkbox" id="scales" name="scales custom-checkbox" {{ $orderNew->out_of_work == 1 ? 'checked' : ''}}>
@@ -206,42 +212,44 @@
         </tr>
     </table>
 
-  
-
     <div class="divFooter">
-      <hr style="border-top: dotted 2px; background: none;" />
+        <hr style="border-top: dotted 2px; background: none;" />
         <table>
-        <tr>
-            <td style="width:40%">
-                <span class="text-bold">Бланк заказа № {{ $orderNew->order_number }}</span><br>
-                <span class="text-bold">Дата получения <b> {{ $orderNew->date_issuance }} </b></span><br><br>
+            <tr>
+                <td style="width:40%">
+                    <span class="text-bold">Бланк заказа № {{ $orderNew->order_number }}</span><br>
+                    <span class="text-bold">Дата получения <b> 
+                        @if (!empty($orderNew->date_issuance))
+                            {{ \Carbon\Carbon::parse($orderNew->date_issuance)->format('d-m-Y') }}
+                        @endif
+                    </b></span><br><br>
 
-                <div style="border: 1px solid black; min-height: 80px;">
-                    <div class="row">
-                        <span class="fst-italic" style="margin-left: 5px;">Сумма заказа: </span>
-                        <h1 style="margin-left: 5px;">{{ $orderNew->total_amount }}</h1>
+                    <div style="border: 1px solid black; min-height: 80px;">
+                        <div class="row">
+                            <span class="fst-italic" style="margin-left: 5px;">Сумма заказа: </span>
+                            <h1 style="margin-left: 5px;">{{ $orderNew->total_amount }}</h1>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td style="width:60%">
-                <ul>
-                    <li>В течения дня получения Вам поступит СМС-уведомление о готовности, после которого Вы сможете получить заказ. </li>
-                    <li>В случае отказа клиента от выполненных/ работ, сумма внесенной предоплаты не возвращается!</li>
-                    <li>Срок хранения выполненного заказа – 1 месяц </li>
-                </ul>
-                <div style="margin-left:20px;">
-                    <span><b>тел.</b>: 8(495)665-25-61 <b>WhatsApp</b>: 8(926)865-92-95 </span><br>
-                    <span><b>Instagram</b>: bagetnaya1</span><br>
-                    <span><b>e-mail</b>: manager@bagetnaya-masterskaya.com </span><br>
-                    <span><b>web</b>: www.bagetnaya-masterskaya.com </span>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <div class="row text-end">
-        <span class="fst-italic">заказ оформлен в Багетной мастерской №1 по адресу: ул. Арбат, дом №1, ст.м. Арбатская</span>
-    </div>
+                </td>
+                <td style="width:60%">
+                    <ul>
+                        <li>В течении дня получения Вам поступит СМС-уведомление о готовности, после которого Вы сможете получить заказ. </li>
+                        <li>В случае отказа клиента от выполненных работ, сумма внесенной предоплаты не возвращается!</li>
+                        <li>Срок хранения выполненного заказа – 1 месяц </li>
+                    </ul>
+                    <div style="margin-left:20px;">
+                        <span><b>тел.</b>: 8(495)665-25-61 <b>WhatsApp</b>: 8(926)865-92-95 </span><br>
+                        <span><b>Instagram</b>: bagetnaya1</span><br>
+                        <span><b>e-mail</b>: manager@bagetnaya-masterskaya.com </span><br>
+                        <span><b>web</b>: www.bagetnaya-masterskaya.com </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div class="row text-end">
+            <span class="fst-italic">заказ оформлен в Багетной мастерской №1 по адресу: ул. Арбат, дом №1, ст.м. Арбатская</span>
+        </div>
     </div>
 
 </body>

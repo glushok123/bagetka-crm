@@ -132,7 +132,6 @@ class OrderController extends Controller
             }
         }
 
-
         DB::connection('mysqlbagetnaya')->table('calendar')->where('order_id', $order->id)->update([
             "datein" => $order->date_reception,
             "numberord" => $order->order_number,
